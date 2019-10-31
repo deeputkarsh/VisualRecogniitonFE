@@ -1,77 +1,70 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import Axios from 'axios'
-import { TextField, FormControl, Button } from '@material-ui/core'
+import { Button, Paper } from '@material-ui/core'
+import { ibmAccessData, apiUrl } from '../services'
+import styles from 'Styles/index.scss'
 
-const apiData = {
-  apikey: 'cm3HgaDCSOtpgHRBRkor37HkR_3L93XAWLqOfZsuYlBV',
-  iam_apikey_description: 'Auto generated apikey during resource-key operation for Instance - crn:v1:bluemix:public:watson-vision-combined:us-south:a/70c712e475914b1587b24366dbeba1ee:d79ca2c6-7c53-4b8a-92ea-3e24ee455bc1::',
-  iam_apikey_name: 'auto-generated-apikey-2197dfa2-0a81-453e-b7e2-be56c1110e4c',
-  iam_role_crn: 'crn:v1:bluemix:public:iam::::serviceRole:Writer',
-  iam_serviceid_crn: 'crn:v1:bluemix:public:iam-identity::a/70c712e475914b1587b24366dbeba1ee::serviceid:ServiceId-d7b854d6-7c09-4e1a-a2b9-9a5840cbba76',
-  url: 'https://gateway.watsonplatform.net/visual-recognition/api',
-  tokenUrl: 'https://iam.cloud.ibm.com/identity/token',
-  grant_type: 'urn:ibm:params:oauth:grant-type:apikey'
-}
-const data = {
-  apikey: 'cm3HgaDCSOtpgHRBRkor37HkR_3L93XAWLqOfZsuYlBV',
-  grant_type: 'urn:ibm:params:oauth:grant-type:apikey'
-}
-const formData = new FormData()
-formData.append('apikey',apiData.apikey)
-formData.append('grant_type',apiData.grant_type)
-Axios.post(apiData.tokenUrl,formData).then(console.log)
-
-function Hacathon2 () {
-  const [image, setImage] = React.useState('')
-  let fileData, binaryData
-  const apiUrl = 'https://automl.googleapis.com/v1beta1/projects/shining-sign-232310/locations/us-central1/models/ICN5184506474459578463:predict'
-  const bearerToken = ''
+export default function () {
+  const [image, setImage] = useState('')
+  const [result, setResult] = useState({ class: '', score: 0 })
+  const fileInput = useRef(null)
 
   const onFileInputChange = function (event) {
-    const { files } = event.target
-    fileData = files[0]
-    getFileData()
-    setImage(event.target.value)
+    setImageToRender(event.target.files[0])
   }
 
-  function callApi () {
-    if (!binaryData) {
+  async function callApi () {
+    if (!fileInput || !fileInput.current || !fileInput.current.files) {
       return
     }
-    const headers = { Authorization: `Bearer ${bearerToken}` }
-    const data = {
-      payload: { image: { imageBytes: binaryData } }
+    const auth = window.btoa(`apikey:${ibmAccessData.apiKey}`)
+    const config = {
+      headers: {
+        Authorization: `Basic ${auth}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
     }
-    // const onApiError = (error) => { this.setState({ error }) }
-    const response = Axios.post(apiUrl, data, { headers }).then(console.log).catch(console.log)
-    console.log(response.data)
+    const formData = new FormData() // eslint-disable-line no-undef
+    formData.append('images_file', fileInput.current.files[0])
+    formData.append('classifier_ids', 'DefaultCustomModel_1229742937')
+    formData.append('threshold', 0.6)
+    const response = await Axios.post(apiUrl.visualRecog, formData, config)
+    const result = response.data.images[0].classifiers[0].classes[0]
+    setResult({ class: result.class, score: result.score * 100 })
   }
 
-  function getFileData () {
-    const { FileReader } = window
+  function setImageToRender (fileData) {
     if (fileData) {
-      const base64Reader = new FileReader()
+      const base64Reader = new FileReader() // eslint-disable-line no-undef
       base64Reader.onload = _ => {
         setImage(base64Reader.result)
       }
       base64Reader.readAsDataURL(fileData)
-      const binaryReader = new FileReader()
-      binaryReader.onload = _ => {
-        binaryData = binaryReader.result
-      }
-      binaryReader.readAsBinaryString(fileData)
     }
   }
 
   return (
     <div className='watson'>
-      <div>
-        <input type='file' accept='image/png, image/jpg' onChange={onFileInputChange} />
+      <div className={styles.buttonContainer}>
+        <input
+          accept='image/*'
+          ref={fileInput}
+          style={{ display: 'none' }}
+          id='raised-button-file'
+          type='file'
+          onChange={onFileInputChange}
+        />
+        <label htmlFor='raised-button-file'>
+          <Button color='primary' size='large' variant='contained' component='span'> Upload </Button>
+        </label>
+        <Button color='primary' size='large' variant='contained' onClick={callApi}> Classify </Button>
       </div>
-      <div><img src={image} alt='uploaded' /></div>
-      <Button onClick={event => callApi(event)}>Upload</Button>
+      {result.class && result.score && (
+        <Paper className={styles.resultContainer}>
+          <div><strong>Class : </strong>{result.class}</div>
+          <div><strong>Score : </strong>{result.score}</div>
+        </Paper>)}
+      <div className={styles.imageContainer}>{image && <img src={image} alt='uploaded' />}</div>
     </div>
   )
 }
-
-export default Hacathon2

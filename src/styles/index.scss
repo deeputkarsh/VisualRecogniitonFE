@@ -27,6 +27,19 @@ html, body{
     @include flexCenter;
     min-height: 250px;
 }
+.buttonContainer{
+    @include flexCenter;
+    justify-content: space-evenly;
+}
+.resultContainer{
+    max-width: 300px;
+    padding: 10px;
+    margin: 10px auto;
+}
+.imageContainer{
+    @include flexCenter;
+    padding: 15px;
+}
 
 .headerWrapper{
     width: 100%;
