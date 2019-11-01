@@ -50,9 +50,16 @@ html, body{
 }
 
 .logoContainer{
-    background: url('../assets/logo.png') no-repeat;
+    background: url('../assets/logo.jpg') no-repeat;
     width: 92px;
     height: 46px;
+    display: block;
+}
+
+.acnlogoContainer{
+    background: url('../assets/logo.jpg') no-repeat;
+    width: 160px;
+    height: 125px;
     display: block;
 }
 

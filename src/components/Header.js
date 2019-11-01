@@ -5,7 +5,7 @@ import styles from 'Styles/index.scss'
 export const Header = ({ login }) => {
   return (
     <header className={styles.headerWrapper}>
-      <div className={styles.logoContainer} />
+      <div className={styles.acnlogoContainer} />
     </header>
   )
 }
