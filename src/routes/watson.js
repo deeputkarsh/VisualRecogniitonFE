@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import Axios from 'axios'
 import { Button, Paper } from '@material-ui/core'
-import { ibmAccessData, apiUrl } from '../services'
+import { visualRecog } from '../services'
 import styles from 'Styles/index.scss'
 
 export default function () {
@@ -17,7 +17,7 @@ export default function () {
     if (!fileInput || !fileInput.current || !fileInput.current.files) {
       return
     }
-    const auth = window.btoa(`apikey:${ibmAccessData.apiKey}`)
+    const auth = window.btoa(`apikey:${visualRecog.apiKey}`)
     const config = {
       headers: {
         Authorization: `Basic ${auth}`,
@@ -28,7 +28,7 @@ export default function () {
     formData.append('images_file', fileInput.current.files[0])
     formData.append('classifier_ids', 'DefaultCustomModel_1229742937')
     formData.append('threshold', 0.6)
-    const response = await Axios.post(apiUrl.visualRecog, formData, config)
+    const response = await Axios.post(visualRecog.apiUrl, formData, config)
     const result = response.data.images[0].classifiers[0].classes[0]
     setResult({ class: result.class, score: result.score * 100 })
   }

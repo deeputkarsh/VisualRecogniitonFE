@@ -19,7 +19,7 @@ module.exports = () => {
     entry: './src/index.js',
     output: {
       path: distDir,
-      publicPath: '/',
+      publicPath: process.env.PUBLIC_PATH,
       filename: '[hash].js'
     },
     devServer: {
