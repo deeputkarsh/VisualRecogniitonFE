@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import DehazeIcon from '@material-ui/icons/Dehaze'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-
+import { baseUrl } from '../services'
 import styles from 'Styles/index.scss'
 
 export const Header = ({ login }) => {
@@ -29,8 +29,8 @@ export const Header = ({ login }) => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}><Link className={styles.link} to='/'>Image Recognition Watson</Link></MenuItem>
-          <MenuItem onClick={handleClose}><Link className={styles.link} to='/speech'>Speech To Text</Link></MenuItem>
+          <MenuItem onClick={handleClose}><Link className={styles.link} to={`${baseUrl}`}>Image Recognition Watson</Link></MenuItem>
+          <MenuItem onClick={handleClose}><Link className={styles.link} to={`${baseUrl}speech`}>Speech To Text</Link></MenuItem>
         </Menu>
       </div>
     </header>

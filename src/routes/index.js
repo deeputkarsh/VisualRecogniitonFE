@@ -8,6 +8,7 @@ import {
   Switch,
   Route
 } from 'react-router-dom'
+import { baseUrl } from '../services'
 
 export default (props) => {
   return (
@@ -15,10 +16,10 @@ export default (props) => {
       <Header />
       <div className={styles.mainWrapper}>
         <Switch>
-          <Route exact path='/'>
+          <Route exact path={`${baseUrl}`}>
             <Watson />
           </Route>
-          <Route exact path='/speech'>
+          <Route exact path={`${baseUrl}speech`}>
             <SpeechToText />
           </Route>
         </Switch>
