@@ -16,8 +16,8 @@ export default function () {
   recognition.onsoundstart = _ => setIsListening(true)
   recognition.onsoundend = _ => setIsListening(false)
   recognition.onresult = (event) => {
-    console.log(event)
-    setResult({ text: 'heared', confidence: 1 })
+    const result = event.results[0][0]
+    setResult({ text: result.transcript, confidence: result.confidence })
   }
 
   const startStopListening = _ => {
@@ -26,7 +26,8 @@ export default function () {
   return (
     <div>
       <Paper className={styles.resultContainer}>
-        {result.text ? <div><strong>Text : </strong>{result.text}</div> : <div>{isListening ? 'Listening' : 'Ready to Listen'}</div>}
+        <div>{isListening ? 'Listening' : 'Ready to Listen'}</div>
+        {result.text ? <div><strong>Text : </strong>{result.text}</div> : null}
         {result.confidence ? (<div><strong>Confidence : </strong>{result.confidence}</div>) : null}
       </Paper>
       <div className={styles.buttonContainer}>
