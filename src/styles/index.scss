@@ -32,6 +32,13 @@ html, body{
     @include flexCenter;
     justify-content: space-evenly;
 }
+.linkContainer{
+    @include flexCenter;
+    align-items: flex-start;
+    .link{
+        margin-left: 10px;
+    }
+}
 .resultContainer{
     max-width: 300px;
     padding: 10px;
@@ -41,7 +48,13 @@ html, body{
     @include flexCenter;
     padding: 15px;
     height: 250px;
+    width: 40%;
+    margin: auto;
     margin-bottom: 10px;
+    @include md{
+        width: 100%;
+    }; 
+    
     .uploadContainer{
         @include flexCenter;
         width: 100%;
