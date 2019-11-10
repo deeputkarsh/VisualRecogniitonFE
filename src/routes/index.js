@@ -1,7 +1,7 @@
 import React from 'react'
 import { Header } from '../components'
 import styles from 'Styles/index.scss'
-import Watson from './watson'
+// import Watson from './watson'
 import SpeechToText from './speechtotext'
 
 export default (props) => {
@@ -9,8 +9,8 @@ export default (props) => {
     <>
       <Header />
       <div className={styles.mainWrapper}>
-        <Watson />
-        {/* <SpeechToText /> */}
+        {/* <Watson /> */}
+        <SpeechToText />
       </div>
     </>
   )
