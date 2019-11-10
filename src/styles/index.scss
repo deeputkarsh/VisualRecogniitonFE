@@ -20,6 +20,7 @@ html, body{
     justify-content: center;
     align-items: center;
 }
+
 .mainWrapper{
     margin: 12px;
 }
@@ -39,6 +40,18 @@ html, body{
 .imageContainer{
     @include flexCenter;
     padding: 15px;
+    height: 250px;
+    margin-bottom: 10px;
+    .uploadContainer{
+        @include flexCenter;
+        width: 100%;
+        height: 100%;
+    }
+    img{
+        @include md{
+            width: 100%;
+        }; 
+    }
 }
 
 .headerWrapper{

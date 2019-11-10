@@ -45,7 +45,7 @@ export default function () {
 
   return (
     <div className='watson'>
-      <div className={styles.buttonContainer}>
+      <Paper className={styles.imageContainer}>
         <input
           accept='image/*'
           ref={fileInput}
@@ -54,9 +54,15 @@ export default function () {
           type='file'
           onChange={onFileInputChange}
         />
-        <label htmlFor='raised-button-file'>
-          <Button color='primary' size='large' variant='contained' component='span'> Upload </Button>
-        </label>
+        {image
+          ? (<img src={image} alt='uploaded' />)
+          : (
+            <label className={styles.uploadContainer} htmlFor='raised-button-file'>
+              <span> Upload Image</span>
+            </label>
+          )}
+      </Paper>
+      <div className={styles.buttonContainer}>
         <Button color='primary' size='large' variant='contained' onClick={callApi}> Classify </Button>
       </div>
       {result.class && result.score && (
@@ -64,7 +70,6 @@ export default function () {
           <div><strong>Class : </strong>{result.class}</div>
           <div><strong>Score : </strong>{result.score}</div>
         </Paper>)}
-      <div className={styles.imageContainer}>{image && <img src={image} alt='uploaded' />}</div>
     </div>
   )
 }
