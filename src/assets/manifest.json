@@ -1,7 +1,7 @@
 {
-  "name": "visual-recognition-fe",
-  "short_name": "AVR",
-  "start_url": ".",
+  "name": "Visual Recognition",
+  "short_name": "Visual Recog",
+  "start_url": "/?utm_source=homescreen",
   "display": "standalone",
   "background_color": "#f4f8f9",
   "theme_color": "#f4f8f9",

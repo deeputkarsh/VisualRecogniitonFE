@@ -3,11 +3,16 @@ const dotenv = require('dotenv')
 const path = require('path')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const rootDir = path.resolve(__dirname, '.')
 // const srcDir = path.resolve(__dirname, '.', 'src')
 const distDir = path.resolve(__dirname, '.', 'dist')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const cssnano = require('cssnano')
+const devMode = process.env.NODE_ENV === 'development'
 
 module.exports = () => {
   const env = dotenv.config().parsed
@@ -54,23 +59,15 @@ module.exports = () => {
         test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|otf|svg)(\?[a-z0-9=.]+)?$/,
         loader: 'url-loader'
       }, {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader'
-      }, {
-        test: /\.(scss|sass)$/,
+        test: /\.(sa|sc|c)ss$/,
         exclude: /node_modules/,
         use: [{
-          loader: 'style-loader'
-        }, {
-          loader: 'css-loader',
-          options: {
-            // modules: true,
-            sourceMap: false,
-            modules: { localIdentName: '[name]-[local]_[hash:base64:5]' }
-          }
-        }, {
-          loader: 'sass-loader'
-        }, {
+          loader: MiniCssExtractPlugin.loader,
+          options: { hmr: devMode }
+        },
+        'css-loader',
+        'sass-loader',
+        {
           loader: 'postcss-loader',
           options: {
             plugins: () => [
@@ -85,12 +82,16 @@ module.exports = () => {
               })
             ]
           }
-        }]
+        }
+        ]
       }]
     },
     optimization: {
       minimize: true,
       minimizer: [
+        new UglifyJsPlugin({
+          test: /\.js(\?.*)?$/i
+        }),
         new OptimizeCSSAssetsPlugin({
           cssProcessor: cssnano,
           cssProcessorOptions: {
@@ -140,8 +141,16 @@ module.exports = () => {
           js: ['bundle.js']
         }
       }),
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // both options are optional
+        filename: devMode ? '[name].css' : '[name].[hash].css',
+        chunkFilename: devMode ? '[id].css' : '[id].[hash].css'
+      }),
+      new CompressionPlugin({ test: /\.js(\?.*)?$/i }),
       new webpack.DefinePlugin(envKeys),
-      new WorkboxPlugin.GenerateSW()
+      new WorkboxPlugin.GenerateSW(),
+      new CopyPlugin(['./src/assets/'])
     ]
   }
 }

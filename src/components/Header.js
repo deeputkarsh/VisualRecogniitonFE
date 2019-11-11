@@ -4,7 +4,6 @@ import DehazeIcon from '@material-ui/icons/Dehaze'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import { baseUrl } from '../services'
-import styles from 'Styles/index.scss'
 
 export const Header = ({ login }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -18,9 +17,9 @@ export const Header = ({ login }) => {
   }
 
   return (
-    <header className={styles.headerWrapper}>
-      <div className={styles.acnlogoContainer} />
-      <div className={styles.linkContainer}>
+    <header className='header-wrapper'>
+      <div className='logo-container' />
+      <div className='menu-container'>
         <DehazeIcon onClick={handleClick} />
         <Menu
           id='simple-menu'
@@ -29,8 +28,8 @@ export const Header = ({ login }) => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}><Link className={styles.link} to={`${baseUrl}`}>Image Recognition Watson</Link></MenuItem>
-          <MenuItem onClick={handleClose}><Link className={styles.link} to={`${baseUrl}speech`}>Speech To Text</Link></MenuItem>
+          <MenuItem onClick={handleClose}><Link className='link' to={`${baseUrl}`}>Image Recognition Watson</Link></MenuItem>
+          <MenuItem onClick={handleClose}><Link className='link' to={`${baseUrl}speech`}>Speech To Text</Link></MenuItem>
         </Menu>
       </div>
     </header>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Button, Paper } from '@material-ui/core'
-import styles from 'Styles/index.scss'
 
 window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition
 const isSpeechRecognitionSupported = ('SpeechRecognition' in window)
@@ -25,12 +24,12 @@ export default function () {
   }
   return (
     <div>
-      <Paper className={styles.resultContainer}>
+      <Paper className='result-container'>
         <div>{isListening ? 'Listening' : 'Ready to Listen'}</div>
         {result.text ? <div><strong>Text : </strong>{result.text}</div> : null}
         {result.confidence ? (<div><strong>Confidence : </strong>{result.confidence}</div>) : null}
       </Paper>
-      <div className={styles.buttonContainer}>
+      <div className='button-container'>
         <Button color='primary' size='large' variant='contained' onClick={_ => startStopListening()}> Start/Stop </Button>
       </div>
 

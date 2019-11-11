@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react'
 import Axios from 'axios'
 import { Button, Paper } from '@material-ui/core'
 import { visualRecog } from '../services'
-import styles from 'Styles/index.scss'
 
 export default function () {
   const [image, setImage] = useState('')
@@ -47,7 +46,7 @@ export default function () {
 
   return (
     <div className='watson'>
-      <Paper className={styles.imageContainer}>
+      <Paper className='image-container'>
         <input
           accept='image/*'
           ref={fileInput}
@@ -59,16 +58,16 @@ export default function () {
         {image
           ? (<img src={image} alt='uploaded' />)
           : (
-            <label className={styles.uploadContainer} htmlFor='raised-button-file'>
+            <label className='upload-container' htmlFor='raised-button-file'>
               <span> Upload Image</span>
             </label>
           )}
       </Paper>
-      <div className={styles.buttonContainer}>
+      <div className='button-container'>
         <Button color='primary' size='large' variant='contained' onClick={callApi}> Classify </Button>
       </div>
       {result.class && result.score && (
-        <Paper className={styles.resultContainer}>
+        <Paper className='result-container'>
           <div><strong>Class : </strong>{result.class}</div>
           <div><strong>Score : </strong>{result.score}</div>
         </Paper>)}

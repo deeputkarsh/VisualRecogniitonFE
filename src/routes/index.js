@@ -1,6 +1,5 @@
 import React from 'react'
 import { Header } from '../components'
-import styles from 'Styles/index.scss'
 import Watson from './watson'
 import SpeechToText from './speechtotext'
 import {
@@ -14,7 +13,7 @@ export default (props) => {
   return (
     <Router>
       <Header />
-      <div className={styles.mainWrapper}>
+      <div className='main-wrapper'>
         <Switch>
           <Route exact path={`${baseUrl}`}>
             <Watson />
