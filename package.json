@@ -9,7 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"src/**/*.js\"",
     "eslint-fix": "eslint --fix \"src/**/*.js\"",
-    "build": "webpack  --mode=production --progress --profile --colors --display-error-details"
+    "build": "npm run clean && webpack  --mode=production --progress --profile --colors --display-error-details",
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "author": "Megha Bhagat",
   "license": "ISC",
@@ -58,6 +59,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-standard": "^4.0.1",
+    "gh-pages": "^2.1.1",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.12.0",
     "postcss-loader": "^3.0.0",

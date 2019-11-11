@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import Axios from 'axios'
 import { Button, Paper } from '@material-ui/core'
-import { ibmAccessData, apiUrl } from '../services'
+import { visualRecog } from '../services'
 import styles from 'Styles/index.scss'
 
 export default function () {
@@ -17,7 +17,7 @@ export default function () {
     if (!fileInput || !fileInput.current || !fileInput.current.files) {
       return
     }
-    const auth = window.btoa(`apikey:${ibmAccessData.apiKey}`)
+    const auth = window.btoa(`apikey:${visualRecog.apiKey}`)
     const config = {
       headers: {
         Authorization: `Basic ${auth}`,
@@ -28,7 +28,7 @@ export default function () {
     formData.append('images_file', fileInput.current.files[0])
     formData.append('classifier_ids', 'DefaultCustomModel_1229742937')
     formData.append('threshold', 0.6)
-    const response = await Axios.post(apiUrl.visualRecog, formData, config)
+    const response = await Axios.post(visualRecog.apiUrl, formData, config)
     const result = response.data.images[0].classifiers[0].classes[0]
     setResult({ class: result.class, score: result.score * 100 })
   }
@@ -45,7 +45,7 @@ export default function () {
 
   return (
     <div className='watson'>
-      <div className={styles.buttonContainer}>
+      <Paper className={styles.imageContainer}>
         <input
           accept='image/*'
           ref={fileInput}
@@ -54,9 +54,15 @@ export default function () {
           type='file'
           onChange={onFileInputChange}
         />
-        <label htmlFor='raised-button-file'>
-          <Button color='primary' size='large' variant='contained' component='span'> Upload </Button>
-        </label>
+        {image
+          ? (<img src={image} alt='uploaded' />)
+          : (
+            <label className={styles.uploadContainer} htmlFor='raised-button-file'>
+              <span> Upload Image</span>
+            </label>
+          )}
+      </Paper>
+      <div className={styles.buttonContainer}>
         <Button color='primary' size='large' variant='contained' onClick={callApi}> Classify </Button>
       </div>
       {result.class && result.score && (
@@ -64,7 +70,6 @@ export default function () {
           <div><strong>Class : </strong>{result.class}</div>
           <div><strong>Score : </strong>{result.score}</div>
         </Paper>)}
-      <div className={styles.imageContainer}>{image && <img src={image} alt='uploaded' />}</div>
     </div>
   )
 }
