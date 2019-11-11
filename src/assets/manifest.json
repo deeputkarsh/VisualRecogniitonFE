@@ -4,6 +4,7 @@
   "start_url": ".",
   "display": "standalone",
   "background_color": "#f4f8f9",
+  "theme_color": "#f4f8f9",
   "description": "Image and Voice recognition app",
   "icons": [{
     "src": "icons/icon48.png",
