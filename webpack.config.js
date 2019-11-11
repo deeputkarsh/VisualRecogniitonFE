@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const dotenv = require('dotenv')
 const path = require('path')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
+const WorkboxPlugin = require('workbox-webpack-plugin')
 const rootDir = path.resolve(__dirname, '.')
 // const srcDir = path.resolve(__dirname, '.', 'src')
 const distDir = path.resolve(__dirname, '.', 'dist')
@@ -9,11 +10,11 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const cssnano = require('cssnano')
 
 module.exports = () => {
-  /*const env = dotenv.config().parsed
+  const env = dotenv.config().parsed
   const envKeys = Object.keys(env).reduce((prev, next) => {
     prev[`process.env.${next}`] = JSON.stringify(env[next])
     return prev
-  }, {})*/
+  }, {})
   return {
     context: rootDir,
     entry: './src/index.js',
@@ -138,8 +139,9 @@ module.exports = () => {
           css: ['styles.css'],
           js: ['bundle.js']
         }
-      })/*,
-      new webpack.DefinePlugin(envKeys)*/
+      }),
+      new webpack.DefinePlugin(envKeys),
+      new WorkboxPlugin.GenerateSW()
     ]
   }
 }

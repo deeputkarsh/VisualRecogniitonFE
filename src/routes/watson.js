@@ -29,8 +29,10 @@ export default function () {
     formData.append('classifier_ids', 'DefaultCustomModel_1229742937')
     formData.append('threshold', 0.6)
     const response = await Axios.post(visualRecog.apiUrl, formData, config)
-    const result = response.data.images[0].classifiers[0].classes[0]
-    setResult({ class: result.class, score: result.score * 100 })
+    if (response.data && response.data.images && response.data.images.length) {
+      const result = response.data.images[0].classifiers[0].classes[0]
+      setResult({ class: result.class, score: result.score * 100 })
+    }
   }
 
   function setImageToRender (fileData) {
