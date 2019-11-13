@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import { Button, Paper } from '@material-ui/core'
 
 window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition
-const isSpeechRecognitionSupported = ('SpeechRecognition' in window)
-const recognition = isSpeechRecognitionSupported ? new window.SpeechRecognition() : {}
+const recognition = window.SpeechRecognition ? new window.SpeechRecognition() : {}
 
 export default function () {
-  if (!isSpeechRecognitionSupported) {
+  if (!window.SpeechRecognition) {
     return (<div>Speech Recgnition API not supported!</div>)
   }
   const [result, setResult] = useState({ text: '', confidence: 0 })
