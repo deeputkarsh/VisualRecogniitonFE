@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist",
+    "add-php":"cp ./dist/index.html ./dist/index.php && cp .htaccess ./dist/",
     "start": "webpack-dev-server --mode development",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"src/**/*.js\"",
     "eslint-fix": "eslint --fix \"src/**/*.js\"",
     "build": "npm run clean && webpack  --mode=production --progress --profile --colors --display-error-details",
     "deploy": "npm run build && gh-pages -d dist",
-    "deploy-heroku": "npm run build && cp ./dist/index.html ./dist/index.php && gh-pages -d dist -b heroku-deploy"
+    "deploy-heroku": "npm run build && npm run add-php && gh-pages -d dist -b heroku-deploy"
   },
   "author": "Megha Bhagat",
   "license": "ISC",
